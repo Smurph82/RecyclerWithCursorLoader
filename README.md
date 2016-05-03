@@ -32,6 +32,7 @@ This is just a demo of a RecyclerView loading from a CursorLoader. I will docume
 
 ######.db.TblMyObject
 > This is just my personal preference. I like to have a POJO for each of my SQLite tables. This way most of the logic for the tables can be in separate classes. You also don't have to remember all the String column names in the each table as you can just add `public static final String`s for each of the column names.
+
 - Variables
   - TABLE_NAME - is the table name. I like to use the Class name but it can be anything.
   - BASE_CONTENT_URI - Is a Uri that will be used in the `UriMatcher`. This is just a base/root Uri so to pull multiple items from the given table.
