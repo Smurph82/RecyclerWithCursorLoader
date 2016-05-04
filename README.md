@@ -40,3 +40,13 @@ This is just a demo of a RecyclerView loading from a CursorLoader. I will docume
   - `interface CursorAllObjects` I like to use this for each of the Cursors that I might create in the app. 
 
 ######.db.MyProvider
+- This extends the `ContentProvider` and implements all of the methods involved.
+- Variables
+  - `AUTHORITY` - This is an important one. This is what allows your ContentProvider to be called and must be unique to your app.
+  - The `uriMatcher` returns an `int` value based on the Uri that is compared in the matcher. I use switch statements in the different methods of the ContentProvider to determine if there is anything extra to do with the SQL statement.
+  - The `query` method is your select statement, and insert, update, and delete are self-explanatory.
+  - The insert, update, and delete use the `db.beginTransaction();` and `db.setTransactionSuccessful();` so that if something goes wrong during the sql execute then the data will not be saved and everything between the beginTransaction and the setTransactionSuccessful will be rolled back to a state before the beginTransaction started.
+  - In the update, insert, and delete method you will notice that at the end I call `getContext().getContentResolver().notifyChange(uri, null)` or `cr.notifyChange(uri, null)`. This is how the `DataSetObserver`in the `BaseCursorAdapter` know when something changes in the table. Because the Uri that we used to query all the objects was `content://com.smurph.recyclerwithloader.db/TblMyObject` in the `MainActivity` we also are using the same Uri to update, delete, and insert. So when the one of those methods executes the ContentResolver.notifyChange(uri, null) is called. That Uri is the same Uri used to populate the list. This tells the `AdapterDataSetObserver` in the `BaseCursorAdapter` to `notifyDataSetChanged();`. This makes the RecyclerView update its items.
+
+######Things to keep in mind
+1. Always try to include the _id in queries. This can be very useful. Also in the `BaseCursorAdapter` I had called `setHasStableIds(true);` in the `init(@Nullable Cursor cursor)` method. If the _id was not in the query returned from the CursorLoader then this would error out because there would not be anys ids to make the items unique.
