@@ -63,7 +63,7 @@ public class MyObject {
         ContentResolver cr = context.getContentResolver();
         try {
             c = cr.query(TblMyObject.BASE_CONTENT_URI,
-                    new String[] { TblMyObject._ID, TblMyObject.NAME },
+                    new String[] { TblMyObject._ID },
                     TblMyObject._ID + "=?",
                     new String[] { Long.toString(this.id) },
                     null);
