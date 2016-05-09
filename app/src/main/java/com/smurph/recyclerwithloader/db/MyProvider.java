@@ -25,10 +25,12 @@ public class MyProvider extends ContentProvider {
     public static final String AUTHORITY = "com.smurph.recyclerwithloader.db";
 
     private static final int TBL_MY_OBJECT = 1;
+    private static final int TBL_MY_EXERCISE = 2;
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, TblMyObject.TABLE_NAME, TBL_MY_OBJECT);
+        uriMatcher.addURI(AUTHORITY, TblMyExercise.TABLE_NAME, TBL_MY_EXERCISE);
     }
 
     private DBHelper dbHelper = null;
@@ -59,6 +61,7 @@ public class MyProvider extends ContentProvider {
         int uriMatch = uriMatcher.match(uri);
         switch (uriMatch) {
             case TBL_MY_OBJECT:
+            case TBL_MY_EXERCISE:
                 qBuilder.setTables(tblPath);
                 break;
             default: throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -97,6 +100,7 @@ public class MyProvider extends ContentProvider {
 
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
+                case TBL_MY_EXERCISE:
                     rowId = db.insert(tblPath, null, values);
                     returnUri = Uri.withAppendedPath(uri, Long.toString(rowId));
                     break;
@@ -132,6 +136,7 @@ public class MyProvider extends ContentProvider {
 
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
+                case TBL_MY_EXERCISE:
                     count = db.delete(tblPath, selection, selectionArgs);
                     break;
                 default: throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -163,6 +168,7 @@ public class MyProvider extends ContentProvider {
 
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
+                case TBL_MY_EXERCISE:
                     count = db.update(tblPath, values, selection, selectionArgs);
                     break;
 
