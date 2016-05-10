@@ -192,6 +192,9 @@ public class MyProvider extends ContentProvider {
             case TBL_MY_OBJECT:
                 return ContentResolver.CURSOR_ITEM_BASE_TYPE +
                         "/vnd." + AUTHORITY + ".MyProvider" + TblMyObject.TABLE_NAME;
+            case TBL_MY_EXERCISE:
+                return ContentResolver.CURSOR_ITEM_BASE_TYPE +
+                        "/vnd." + AUTHORITY + ".MyProvider" + TblMyExercise.TABLE_NAME;
             default: throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
     }
