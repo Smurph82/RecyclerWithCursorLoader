@@ -191,7 +191,7 @@ public class MyProvider extends ContentProvider {
         switch (uriMatcher.match(uri)) {
             case TBL_MY_OBJECT:
                 return ContentResolver.CURSOR_ITEM_BASE_TYPE +
-                        "/vnd." + AUTHORITY + ".ProviderBilling" + TblMyObject.TABLE_NAME;
+                        "/vnd." + AUTHORITY + ".MyProvider" + TblMyObject.TABLE_NAME;
             default: throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
     }
