@@ -28,7 +28,7 @@ public class TblMyExercise implements BaseColumns {
             + DIFFICULTY +    " TEXT, "
             + DATE_AND_TIME + " NUMERIC);";
 
-    public interface CursorAllObjects {
+    public interface CursorAllExercise {
         Uri URI = BASE_CONTENT_URI;
 
         String[] PROJECTION = new String[] { _ID, EXERCISE, DIFFICULTY, DATE_AND_TIME };
