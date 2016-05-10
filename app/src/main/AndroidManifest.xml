@@ -18,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ExerciseActivity" android:label="@string/lbl_exercise" />
 
         <provider
             android:name=".db.MyProvider"

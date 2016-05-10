@@ -1,6 +1,7 @@
 package com.smurph.recyclerwithloader;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -78,8 +79,16 @@ public class MainActivity extends AppCompatActivity
                         Log.e(TAG, "getChildAdapterPosition returned NO_POSITION");
                         return;
                     }
-                    Toast.makeText(v.getContext(),
-                            "Position clicked " + position, Toast.LENGTH_SHORT).show();
+
+                    MyObject myObj = adapter.getItemAt(position);
+
+                    if (myObj!=null) {
+                        Bundle extras = new Bundle(1);
+                        extras.putParcelable(ExerciseActivity.KEY_MY_OBJECT, myObj);
+                        Intent intent = new Intent(MainActivity.this, ExerciseActivity.class);
+                        intent.putExtras(extras);
+                        startActivity(intent);
+                    }
                 }
 
                 @Override

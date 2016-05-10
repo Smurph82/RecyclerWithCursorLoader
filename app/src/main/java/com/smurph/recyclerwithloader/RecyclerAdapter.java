@@ -38,6 +38,17 @@ public class RecyclerAdapter extends BaseCursorAdapter<RecyclerAdapter.RecyclerV
     @Override
     public void onBindViewHolder(RecyclerViewHolder h, Cursor cursor) { h.setItem(cursor); }
 
+    @Nullable
+    public MyObject getItemAt(int position) {
+        if (getCursor()==null || getCursor().getCount()<=position) {
+            // Either cursor is null or the position is out of bounds.
+            return null;
+        }
+        Cursor c = getCursor();
+        c.moveToPosition(position);
+        return new MyObject(c);
+    }
+
     public class RecyclerViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener, View.OnLongClickListener {
 
