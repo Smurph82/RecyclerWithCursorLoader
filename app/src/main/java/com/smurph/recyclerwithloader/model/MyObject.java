@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.smurph.recyclerwithloader.db.TblMyObject;
@@ -17,7 +19,7 @@ import java.util.Locale;
  * Created by Ben on 5/3/2016.
  *
  */
-public class MyObject {
+public class MyObject implements Parcelable {
 
     private long id;
     private String name="";
@@ -101,4 +103,59 @@ public class MyObject {
         context.getContentResolver().delete(TblMyObject.BASE_CONTENT_URI, TblMyObject._ID + "=?",
                 new String[] { Long.toString(this.id) });
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " id: " + this.id +
+                ", name: " + this.name +
+                ", dateTime: " + this.dateTime +
+                "}";
+    }
+
+    public MyObject(Parcel in) {
+        this.id = in.readLong();
+        this.name = in.readString();
+        this.dateTime = in.readLong();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.id);
+        dest.writeString(this.name);
+        dest.writeLong(this.dateTime);
+    }
+
+    @Override
+    public int describeContents() { return 0; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this==o) { return true; }
+
+        if (o==null || getClass()!=o.getClass()) { return false; }
+
+        MyObject object = (MyObject) o;
+
+        if (this.id!=object.id) { return false; }
+        if (!this.name.equals(object.name)) { return false; }
+        //noinspection RedundantIfStatement
+        if (this.dateTime!=object.dateTime) { return false; }
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        //noinspection UnnecessaryLocalVariable
+        int result = this.name.hashCode();
+        return result;
+    }
+
+    public final static Parcelable.Creator<MyObject> CREATOR =
+            new Parcelable.Creator<MyObject>() {
+                public MyObject createFromParcel(Parcel in) { return new MyObject(in); }
+
+                public MyObject[] newArray(int size) { return new MyObject[size]; }
+            };
 }
