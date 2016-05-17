@@ -2,4 +2,8 @@
     <string name="app_name">RecyclerWithLoader</string>
     <string name="action_settings">Settings</string>
     <string name="lbl_exercise">Exercise</string>
+    <string name="hint_exercise">Exercise</string>
+    <string name="lbl_easy">Easy</string>
+    <string name="lbl_medium">Medium</string>
+    <string name="lbl_hard">Hard</string>
 </resources>
