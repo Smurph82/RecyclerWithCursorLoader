@@ -26,11 +26,14 @@ public class MyProvider extends ContentProvider {
 
     private static final int TBL_MY_OBJECT = 1;
     private static final int TBL_MY_EXERCISE = 2;
+    private static final int TBL_OBJECT_TO_EXERCISE = 3;
     private static final UriMatcher uriMatcher;
     static {
         uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
         uriMatcher.addURI(AUTHORITY, TblMyObject.TABLE_NAME, TBL_MY_OBJECT);
         uriMatcher.addURI(AUTHORITY, TblMyExercise.TABLE_NAME, TBL_MY_EXERCISE);
+        /* This one matches the TblMyObject with an ID at the end of it.  */
+        uriMatcher.addURI(AUTHORITY, TblObjectToExercise.TABLE_NAME, TBL_OBJECT_TO_EXERCISE);
     }
 
     private DBHelper dbHelper = null;
@@ -63,6 +66,9 @@ public class MyProvider extends ContentProvider {
             case TBL_MY_OBJECT:
             case TBL_MY_EXERCISE:
                 qBuilder.setTables(tblPath);
+                break;
+            case TBL_OBJECT_TO_EXERCISE:
+                qBuilder.setTables(TblObjectToExercise.CursorObjectToExercise.TABLES);
                 break;
             default: throw new IllegalArgumentException("Unsupported URI: " + uri);
         }
@@ -101,6 +107,7 @@ public class MyProvider extends ContentProvider {
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
                 case TBL_MY_EXERCISE:
+                case TBL_OBJECT_TO_EXERCISE:
                     rowId = db.insert(tblPath, null, values);
                     returnUri = Uri.withAppendedPath(uri, Long.toString(rowId));
                     break;
@@ -137,6 +144,7 @@ public class MyProvider extends ContentProvider {
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
                 case TBL_MY_EXERCISE:
+                case TBL_OBJECT_TO_EXERCISE:
                     count = db.delete(tblPath, selection, selectionArgs);
                     break;
                 default: throw new IllegalArgumentException("Unsupported URI: " + uri);
@@ -169,6 +177,7 @@ public class MyProvider extends ContentProvider {
             switch (uriMatcher.match(uri)) {
                 case TBL_MY_OBJECT:
                 case TBL_MY_EXERCISE:
+                case TBL_OBJECT_TO_EXERCISE:
                     count = db.update(tblPath, values, selection, selectionArgs);
                     break;
 

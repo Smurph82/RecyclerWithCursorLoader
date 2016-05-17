@@ -11,7 +11,7 @@ import android.support.annotation.NonNull;
  */
 public class TblMyExercise implements BaseColumns {
 
-    public static final String TABLE_NAME = "TblMyObject2";
+    public static final String TABLE_NAME = "TblMyExercise";
 
     public static Uri BASE_CONTENT_URI = Uri.parse("content://" +
             MyProvider.AUTHORITY + "/" + TABLE_NAME);

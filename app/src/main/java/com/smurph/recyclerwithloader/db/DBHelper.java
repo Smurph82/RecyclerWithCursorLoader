@@ -14,7 +14,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     private static final String TAG = DBHelper.class.getSimpleName();
 
-    private static final int CURRENT_VERSION = 3;
+    private static final int CURRENT_VERSION = 4;
     private static final String DB_NAME = "mydb.db";
 
     /** Used when adding a column to an existing db table */
@@ -31,6 +31,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         new TblMyObject().createTable(db);
         new TblMyExercise().createTable(db);
+        new TblObjectToExercise().createTable(db);
     }
 
     /**
@@ -80,6 +81,9 @@ public class DBHelper extends SQLiteOpenHelper {
                     case 3:
                         db.execSQL(String.format(ADD_COLUMN,
                                 TblMyExercise.TABLE_NAME, TblMyExercise.DIFFICULTY, "TEXT", ""));
+                        break;
+                    case 4:
+                        new TblObjectToExercise().createTable(db);
                         break;
                     default:
                         Log.i(TAG, "No DB updates");
