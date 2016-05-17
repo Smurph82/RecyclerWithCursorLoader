@@ -53,11 +53,11 @@ public class MyExercise implements Parcelable {
 
     public long getId() { return this.id; }
 
-    @NonNull
-    public String getExercise() { return this.exercise; }
+    @NonNull public String getExercise() { return this.exercise; }
 
-    @NonNull
-    public String getDifficulty() { return this.difficulty; }
+    public void setExercise(@NonNull String exercise) { this.exercise=exercise; }
+
+    @NonNull public String getDifficulty() { return this.difficulty; }
 
     public void setDifficulty(@NonNull String difficulty) { this.difficulty = difficulty; }
 
@@ -72,8 +72,10 @@ public class MyExercise implements Parcelable {
      * Called to save this object to the local {@code SQLite} db.
      *
      * @param context The App {@code Context} used to to get the {@link ContentResolver}.
+     * @return {@code true} if everything saved correctly and this was a new record, {@code false}
+     * otherwise.
      */
-    public void save(@NonNull final Context context) {
+    public boolean save(@NonNull final Context context) {
         Cursor c = null;
         ContentResolver cr = context.getContentResolver();
         try {
@@ -83,9 +85,7 @@ public class MyExercise implements Parcelable {
                     new String[]{Long.toString(this.id)},
                     null);
 
-            if (c == null) {
-                return;
-            }
+            if (c == null) { return false; }
 
             ContentValues values = new ContentValues(3);
             values.put(TblMyExercise.EXERCISE, this.exercise);
@@ -95,9 +95,11 @@ public class MyExercise implements Parcelable {
             if (c.getCount() > 0) { // Record exists update
                 cr.update(TblMyExercise.BASE_CONTENT_URI, values, TblMyExercise._ID + "=?",
                         new String[]{Long.toString(id)});
+                return false;
             } else { // Record does not exists insert
                 Uri record = cr.insert(TblMyExercise.BASE_CONTENT_URI, values);
                 if (record != null) { id = Long.parseLong(record.getLastPathSegment()); }
+                return (id>0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -108,6 +110,7 @@ public class MyExercise implements Parcelable {
             //noinspection UnusedAssignment
             cr = null;
         }
+        return false;
     }
 
     /**
@@ -137,6 +140,16 @@ public class MyExercise implements Parcelable {
 
     @Override
     public int describeContents() { return 0; }
+
+    @Override
+    public String toString() {
+        return "{" +
+                " id: " + this.id +
+                ", name: " + this.exercise +
+                ", difficulty: " + this.difficulty +
+                ", dateTime: " + this.dateTime +
+                "}";
+    }
 
     @Override
     public boolean equals(Object o) {
